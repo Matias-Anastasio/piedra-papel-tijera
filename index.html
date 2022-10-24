@@ -1,15 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Piedra Papel y Tijera</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
-    
-    <button id="iniciar">Iniciar</button>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="">Inicio</a></li>
+                <li><a href="">Puntajes</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h1>Piedra, Papel y Tijera</h1>
+        <div class="score">
+            <p id="puntaje">0</p>
+            <div class="score-item hidden"></div>
+            <div class="score-item hidden"></div>
+            <div class="score-item hidden"></div>
+            <div class="score-item hidden"></div>
+            <div class="score-item hidden"></div>
+            <div class="score-item hidden"></div>
+            <div class="score-item hidden"></div>
+            <p id="puntajeRival">0</p>
+        </div>
+        <div class="score-mensaje">
+            <p class="mensaje"></p>
+            <p class="timer"></p>
+        </div>
+        <div class="seleccion">
+            <div class="seleccion-player"><img id="imgPlayer" src="" alt=""></div>
+            <div class="seleccion-divisor"></div>
+            <div class="seleccion-rival">
+                <div id="front" class="front"></div>
+                <div id="back" class="back"><img id="imgRival" src="" alt=""></div>
+            </div>
+        </div>
+        <div class="elegir">
+            <button id="btnPiedra"><img id="piedra" src="assets/img/w-piedra.png"
+                    alt="mano en forma de piedra"></button>
+            <button id="btnPapel"><img id="papel" src="assets/img/w-papel.png" alt="mano en forma de papel"></button>
+            <button id="btnTijera"><img id="tijera" src="assets/img/w-tijera.png"
+                    alt="mano en forma de tijera"></button>
+        </div>
+        <div class="cartel" id="bienvenida">
+            <h2>!Bienvenido al Piedra, Papel y Tijera!</h2>
+            <form action="">
+                <p>Seleccione al mejor de cuanto quiere jugar:</p>
+                <div>
+                    <input type="radio" name="bestof" id="tres" value="3" checked>
+                    <label for="tres">3</label>
+                    <input type="radio" name="bestof" id="cinco" value="5">
+                    <label for="cinco">5</label>
+                    <input type="radio" name="bestof" id="siete" value="7">
+                    <label for="siete">7</label>
+                </div>
+                <label for="nombre">Su Nombre:</label>
+                <input type="text" id="nombre" name="nombre" placeholder="Nombre">
+                <button id="btnIniciar">Comenzar</button>
+            </form>
+        </div>
+        <div class="cartel hidden" id="cartelFinal">
+        </div>
+        <div class="cartel " id="cartelPuntajes">
+            <h2>Partidas Recientes</h2>
+            <button>X</button>
+            <div>
+                <p>Nombre: 3</p>
+                <p>Rival: 2</p>
+                <p>Al mejor de: 7</p>
+            </div>
+            <div>
+                <p>Nombre: 3</p>
+                <p>Rival: 2</p>
+                <p>Al mejor de: 7</p>
+            </div>
+            <div>
+                <p>Nombre: 3</p>
+                <p>Rival: 2</p>
+                <p>Al mejor de: 7</p>
+            </div>
+            <div>
+                <p>Nombre: 3</p>
+                <p>Rival: 2</p>
+                <p>Al mejor de: 7</p>
+            </div><div>
+                <p>Nombre: 3</p>
+                <p>Rival: 2</p>
+                <p>Al mejor de: 7</p>
+            </div><div>
+                <p>Nombre: 3</p>
+                <p>Rival: 2</p>
+                <p>Al mejor de: 7</p>
+            </div><div>
+                <p>Nombre: 3</p>
+                <p>Rival: 2</p>
+                <p>Al mejor de: 7</p>
+            </div>
+        </div>
+        <div class="bloquear"></div>
+    </main>
+    <footer>
+
+    </footer>
     <script src="js/main.js"></script>
 </body>
+
 </html>

@@ -1,89 +1,183 @@
-let opcion, meta, opcionRival, puntaje=0, puntajeRival=0, nombre;
-const seleccion = ["piedra", "papel", "tijera"], tablaScore=[];
+const btnIniciar = document.querySelector("#btnIniciar");
+const imgPiedra = document.querySelector("#piedra");
+const imgPapel = document.querySelector("#papel");
+const imgTijera = document.querySelector("#tijera");
+const imgPlayer = document.querySelector("#imgPlayer")
+const btnPiedra = document.querySelector("#btnPiedra");
+const btnPapel = document.querySelector("#btnPapel");
+const btnTijera = document.querySelector("#btnTijera");
+const front = document.querySelector("#front");
+const back = document.querySelector("#back");
+const imgBack = document.querySelector("#imgRival");
+const mensaje = document.querySelector(".mensaje");
+const scoreItems = document.querySelectorAll(".score-item");
+const images = ["assets/img/w-piedra.png", "assets/img/w-papel.png", "assets/img/w-tijera.png"];
+const cartelFinal = document.querySelector("#cartelFinal");
+const tablaScore = {
+    nombre:"",
+    bestof:0,
+    puntaje:0,
+    puntajeRival:0,
+    ganador: false
+};
+let puntaje = 0;
+let puntajeRival = 0;
+let alMejorDe;
+let nombre;
 
-function score(name="player",bo,puntaje,puntajeRival){
-    this.nombre = name,
-    this.bestof = bo,
-    this.puntaje = puntaje,
-    this.puntajeRival = puntajeRival
-}
+const hide = (item) => item.className += " hidden";
 
-const verPuntuaciones = () =>{
-    tablaScore.forEach(i => {
-        alert(`Partida al mejor de ${i.bestof}\n${i.nombre}: ${i.puntaje}\nRival: ${i.puntajeRival}`);
-    });
-}
+const show = (item) => item = item.classList.remove("hidden");
+
+const generarRival = () => Math.ceil(Math.random() * 10 / 4);
 
 const guardarPuntuacion = () =>{
-    nombre = prompt("Ingrese su nombre")
-    tablaScore.push(new score(nombre,meta,puntaje,puntajeRival));
-}
-
-const resultadoFinal = () =>{
+    tablaScore.nombre = nombre;
+    tablaScore.bestof = alMejorDe;
+    tablaScore.puntaje = puntaje;
+    tablaScore.puntajeRival = puntajeRival;
     if(puntaje>puntajeRival){
-        alert(`¡Felicitaciones Ganaste!\nResultado Final:\nTú: ${puntaje}\nRival: ${puntajeRival}`);
-    }else{
-        alert(`Perdiste :( \nResultado Final:\nTú: ${puntaje}\nRival: ${puntajeRival}`);
-    }
-    if(confirm("¿Desea guardar su puntaje?")){
-        guardarPuntuacion();
-    }
-    if(confirm("¿Desea ver las puntuaciones guardadas?")){
-        verPuntuaciones();
-    }
-    if(confirm("¿Jugar de nuevo?")){
-        seleccionarMeta();
-    }
-}
-
-const generarRival = () =>{
-    return Math.ceil(Math.random()*10/4);
-}
-
-const jugar = () =>{
-    opcionRival= generarRival();
-    if(opcion == opcionRival){
-        alert("Empate, ambos eligieron lo mismo.")
-    }
-    if(opcion==1 && opcionRival==3 || opcion==2 && opcionRival==1 || opcion==3 && opcionRival==2){
-        alert("Ganaste, el rival eligió "+seleccion[opcionRival-1]);
-        puntaje+=1;
-    }
-    if(opcion==1 && opcionRival==2 || opcion==2 && opcionRival==3 || opcion==3 && opcionRival==1){
-        alert("Perdiste, el rival eligió "+seleccion[opcionRival-1]);
-        puntajeRival+=1;
-    }
-}
-
-const elegir = () =>{
-    opcion=Number(prompt("¿Qué elige?\n1: Piedra\n2: Papel\n3: Tijera"));
-    if(opcion!=1 && opcion!=2 && opcion!=3){
-        alert("Opcion Incorrecta");
-        elegir();
-    }
-}
-
-const jugarMientras = () =>{
-    while(puntaje!=(Math.ceil(meta/2)) && puntajeRival!=(Math.ceil(meta/2))){
-        elegir();
-        jugar();
-        alert(`Puntuacion:\nTú: ${puntaje} \nRival: ${puntajeRival}`);
-    }
-    resultadoFinal();
-}
-
-const seleccionarMeta = () =>{
-    meta=Number(prompt("Bienvenido al piedra papel o tijera, seleccione al mejor de cuanto quiere jugar\n3: Al mejor de 3\n5: Al mejor de 5\n7: Al mejor de 7"));
-    puntaje=0;
-    puntajeRival=0;
-    if(meta!=3 && meta!=5 && meta!=7){
-        alert("Opcion Incorrecta");
-        seleccionarMeta();
+        tablaScore.ganador=true;
     }
     else{
-        jugarMientras();
+        tablaScore.ganador=false;
+    }
+    localStorage.setItem(localStorage.length, JSON.stringify(tablaScore));
+}
+
+const volverAJugar = () => {
+    puntaje = 0;
+    puntajeRival = 0;
+    for (item of scoreItems) {
+        item.classList.remove("red");
+        item.classList.remove("blue");
+        hide(item);
+    }
+    hide(cartelFinal);
+    show(document.querySelector("#bienvenida"));
+    mensaje.textContent = "";
+    desbloquearBtn();
+    document.querySelector("#puntaje").textContent = puntaje;
+    document.querySelector("#puntajeRival").textContent = puntajeRival;
+    front.className = "front";
+    back.className = "back";
+    imgPlayer.src = "";
+}
+
+
+const finPartida = () => {
+    cartelFinal.innerHTML = `
+    <h2>Resultado Final</h2>
+    <p>${puntaje > puntajeRival ? "¡Ganaste!" : "Perdiste :("}</p>
+    <div>
+        <p>${nombre}: ${puntaje}</p>
+        <p>Rival: ${puntajeRival}</p>
+        <p>Al mejor de: ${alMejorDe}</p>
+    </div>
+    <button id="volverAJugar">Volver a Jugar</button>`;
+    show(cartelFinal);
+    show(document.querySelector(".bloquear"));
+    const btnVolverAJugar = document.querySelector("#volverAJugar");
+    guardarPuntuacion();
+    btnVolverAJugar.onclick = () => volverAJugar();
+}
+
+const bloquearBtn = () => {
+    btnPiedra.setAttribute("disabled", "disabled");
+    btnPapel.setAttribute("disabled", "disabled");
+    btnTijera.setAttribute("disabled", "disabled");
+    btnPiedra.className += " bloqueado";
+    btnPapel.className += " bloqueado";
+    btnTijera.className += " bloqueado";
+}
+
+const desbloquearBtn = () => {
+    btnPiedra.removeAttribute("disabled");
+    btnPapel.removeAttribute("disabled");
+    btnTijera.removeAttribute("disabled");
+    btnPiedra.classList.remove("bloqueado");
+    btnPapel.classList.remove("bloqueado");
+    btnTijera.classList.remove("bloqueado");
+}
+
+const limpiar = () => {
+    mensaje.textContent = "";
+    document.querySelector(".timer").textContent = "";
+    imgPlayer.src = "";
+    front.className = "front";
+    back.className = "back";
+    desbloquearBtn();
+}
+
+const jugar = (opcion) => {
+    let opcionRival = generarRival();
+    imgBack.src = images[opcionRival - 1];
+    if (opcion == opcionRival) {
+        mensaje.textContent = "Empate.";
+    }
+    if (opcion == 1 && opcionRival == 3 || opcion == 2 && opcionRival == 1 || opcion == 3 && opcionRival == 2) {
+        mensaje.textContent = "Ronda Ganada. "
+        scoreItems[puntaje + puntajeRival].className += " blue";
+        puntaje += 1;
+        document.querySelector("#puntaje").textContent = puntaje;
+    }
+    if (opcion == 1 && opcionRival == 2 || opcion == 2 && opcionRival == 3 || opcion == 3 && opcionRival == 1) {
+        mensaje.textContent = "Ronda Perdida.";
+        scoreItems[puntaje + puntajeRival].className += " red";
+        puntajeRival += 1;
+        document.querySelector("#puntajeRival").textContent = puntajeRival;
+    }
+    if (puntaje != (Math.ceil(alMejorDe / 2)) && puntajeRival != (Math.ceil(alMejorDe / 2))) {
+        mensaje.textContent += " Proxima ronda en"
+        let i = 3;
+        const timer = setInterval(() => {
+            if (i == 0) {
+                clearInterval(timer);
+            }
+            document.querySelector(".timer").textContent = i;
+            i -= 1;
+        }, 700)
+        setTimeout(limpiar, 3000)
+    }
+    else {
+        finPartida();
     }
 }
 
-const btn = document.querySelector("#iniciar");
-btn.onclick = seleccionarMeta;
+btnIniciar.onclick = (evt) => {
+    evt.preventDefault();
+    hide(document.querySelector("#bienvenida"));
+    hide(document.querySelector(".bloquear"));
+    alMejorDe = Number(document.querySelector("input[Name='bestof']:checked").value);
+    nombre = document.querySelector("input[name='nombre'").value;
+    for (let i = 0; i < alMejorDe; i += 1) {
+        show(scoreItems[i]);
+    }
+}
+
+btnPiedra.onclick = () => {
+    imgPlayer.src = imgPiedra.src;
+    bloquearBtn();
+    jugar(1)
+    front.className = "darVueltaFront";
+    back.className = "darVueltaBack";
+}
+
+btnPapel.onclick = () => {
+    imgPlayer.src = imgPapel.src;
+    bloquearBtn();
+    jugar(2)
+    front.className = "darVueltaFront";
+    back.className = "darVueltaBack";
+}
+
+btnTijera.onclick = () => {
+    imgPlayer.src = imgTijera.src;
+    bloquearBtn();
+    jugar(3);
+    front.className = "darVueltaFront";
+    back.className = "darVueltaBack";
+}
+
+
+// finPartida()
