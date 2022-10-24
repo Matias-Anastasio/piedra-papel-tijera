@@ -18,8 +18,10 @@
             </ul>
         </nav>
     </header>
+    <!------------ MAIN ------------>
     <main>
         <h1>Piedra, Papel y Tijera</h1>
+        <!------------ PUNTUACIÓN ------------>
         <div class="score">
             <p id="puntaje">0</p>
             <div class="score-item hidden"></div>
@@ -35,6 +37,7 @@
             <p class="mensaje"></p>
             <p class="timer"></p>
         </div>
+        <!------------ SELECCIONADO Y RIVAL ------------>
         <div class="seleccion">
             <div class="seleccion-player"><img id="imgPlayer" src="" alt=""></div>
             <div class="seleccion-divisor"></div>
@@ -43,6 +46,7 @@
                 <div id="back" class="back"><img id="imgRival" src="" alt=""></div>
             </div>
         </div>
+        <!------------ BOTONES PARA ELEGIR ------------>
         <div class="elegir">
             <button id="btnPiedra"><img id="piedra" src="assets/img/w-piedra.png"
                     alt="mano en forma de piedra"></button>
@@ -50,6 +54,7 @@
             <button id="btnTijera"><img id="tijera" src="assets/img/w-tijera.png"
                     alt="mano en forma de tijera"></button>
         </div>
+        <!------------ CARTEL DE BIENVENIDA ------------>
         <div class="cartel" id="bienvenida">
             <h2>!Bienvenido al Piedra, Papel y Tijera!</h2>
             <form action="">
@@ -67,8 +72,10 @@
                 <button id="btnIniciar">Comenzar</button>
             </form>
         </div>
+        <!------------ CARTEL DE FINAL DE PARTIDA ------------>
         <div class="cartel hidden" id="cartelFinal">
         </div>
+        <!------------ CARTEL DE PARTIDAS GUARDADAS ------------>
         <div class="cartel hidden" id="cartelPuntajes">
             <h2>Partidas Recientes</h2>
             <button id="btnPuntajes"><span></span><span></span></button>
@@ -76,7 +83,6 @@
         <div class="bloquear"></div>
     </main>
     <footer>
-
     </footer>
     <script src="js/main.js"></script>
 </body>

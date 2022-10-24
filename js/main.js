@@ -29,11 +29,31 @@ let puntajeRival = 0;
 let alMejorDe;
 let nombre;
 
+// -------------- FUNCIONES --------------
+
 const hide = (item) => item.className += " hidden";
 
 const show = (item) => item = item.classList.remove("hidden");
 
 const generarRival = () => Math.ceil(Math.random() * 10 / 4);
+
+const bloquearBtn = () => {
+    btnPiedra.setAttribute("disabled", "disabled");
+    btnPapel.setAttribute("disabled", "disabled");
+    btnTijera.setAttribute("disabled", "disabled");
+    btnPiedra.className += " bloqueado";
+    btnPapel.className += " bloqueado";
+    btnTijera.className += " bloqueado";
+}
+
+const desbloquearBtn = () => {
+    btnPiedra.removeAttribute("disabled");
+    btnPapel.removeAttribute("disabled");
+    btnTijera.removeAttribute("disabled");
+    btnPiedra.classList.remove("bloqueado");
+    btnPapel.classList.remove("bloqueado");
+    btnTijera.classList.remove("bloqueado");
+}
 
 const guardarPuntuacion = () => {
     if(!nombre==""){
@@ -111,7 +131,6 @@ const volverAJugar = () => {
     imgPlayer.src = "";
 }
 
-
 const finPartida = () => {
     cartelFinal.innerHTML = `
     <h2>Resultado Final</h2>
@@ -127,24 +146,6 @@ const finPartida = () => {
     const btnVolverAJugar = document.querySelector("#volverAJugar");
     guardarPuntuacion();
     btnVolverAJugar.onclick = () => volverAJugar();
-}
-
-const bloquearBtn = () => {
-    btnPiedra.setAttribute("disabled", "disabled");
-    btnPapel.setAttribute("disabled", "disabled");
-    btnTijera.setAttribute("disabled", "disabled");
-    btnPiedra.className += " bloqueado";
-    btnPapel.className += " bloqueado";
-    btnTijera.className += " bloqueado";
-}
-
-const desbloquearBtn = () => {
-    btnPiedra.removeAttribute("disabled");
-    btnPapel.removeAttribute("disabled");
-    btnTijera.removeAttribute("disabled");
-    btnPiedra.classList.remove("bloqueado");
-    btnPapel.classList.remove("bloqueado");
-    btnTijera.classList.remove("bloqueado");
 }
 
 const limpiar = () => {
@@ -190,6 +191,8 @@ const jugar = (opcion) => {
         finPartida();
     }
 }
+
+// -------------- EVENTOS --------------
 
 btnIniciar.onclick = (evt) => {
     evt.preventDefault();
