@@ -13,11 +13,15 @@ const mensaje = document.querySelector(".mensaje");
 const scoreItems = document.querySelectorAll(".score-item");
 const images = ["assets/img/w-piedra.png", "assets/img/w-papel.png", "assets/img/w-tijera.png"];
 const cartelFinal = document.querySelector("#cartelFinal");
+const enlPuntajes = document.querySelector("#enlPuntajes");
+const cartelPuntajes = document.querySelector("#cartelPuntajes");
+const cartelBienvenida = document.querySelector("#bienvenida");
+const bloqueo = document.querySelector(".bloquear");
 const tablaScore = {
-    nombre:"",
-    bestof:0,
-    puntaje:0,
-    puntajeRival:0,
+    nombre: "",
+    bestof: 0,
+    puntaje: 0,
+    puntajeRival: 0,
     ganador: false
 };
 let puntaje = 0;
@@ -31,18 +35,61 @@ const show = (item) => item = item.classList.remove("hidden");
 
 const generarRival = () => Math.ceil(Math.random() * 10 / 4);
 
-const guardarPuntuacion = () =>{
-    tablaScore.nombre = nombre;
+const guardarPuntuacion = () => {
+    if(!nombre==""){
+        tablaScore.nombre = nombre;
+    }
+    else{
+        tablaScore.nombre = "Jugador";
+    }
     tablaScore.bestof = alMejorDe;
     tablaScore.puntaje = puntaje;
     tablaScore.puntajeRival = puntajeRival;
-    if(puntaje>puntajeRival){
-        tablaScore.ganador=true;
+    if (puntaje > puntajeRival) {
+        tablaScore.ganador = true;
     }
-    else{
-        tablaScore.ganador=false;
+    else {
+        tablaScore.ganador = false;
     }
     localStorage.setItem(localStorage.length, JSON.stringify(tablaScore));
+}
+
+const mostrarPuntajes = (cartel) => {
+    for (let i = localStorage.length - 1; i >= 0; i -= 1) {
+        const obj = JSON.parse(localStorage.getItem(i));
+        cartelPuntajes.innerHTML += `
+        <div class="${obj.ganador ? "blue" : "red"}">
+        <p>${obj.nombre}: ${obj.puntaje}</p>
+        <p>Rival: ${obj.puntajeRival}</p>
+        <p>Al mejor de: ${obj.bestof}</p>
+        </div>`;
+    }
+    cartelPuntajes.innerHTML +=`<button id="btnBorrarPartidas">Borrar Partidas Guardadas</button>`
+    const btnBorrarPartidas = document.querySelector("#btnBorrarPartidas");
+    let btnPuntajes = document.querySelector("#btnPuntajes");
+    btnPuntajes.onclick = () =>{
+        hide(cartelPuntajes)
+        if(cartel==1){
+            show(cartelBienvenida);
+        }
+        else if(cartel==2){
+            show(cartelFinal);
+        }
+        else{
+            hide(bloqueo);
+        }
+        enlPuntajes.classList.remove("disabled");
+        cartelPuntajes.innerHTML=`
+        <h2>Partidas Recientes</h2>
+        <button id="btnPuntajes"><span></span><span></span></button>`;
+    }
+    btnBorrarPartidas.onclick = () =>{
+        localStorage.clear();
+        cartelPuntajes.innerHTML=`
+        <h2>Partidas Recientes</h2>
+        <button id="btnPuntajes"><span></span><span></span></button>`;
+        mostrarPuntajes(cartel);
+    }
 }
 
 const volverAJugar = () => {
@@ -54,7 +101,7 @@ const volverAJugar = () => {
         hide(item);
     }
     hide(cartelFinal);
-    show(document.querySelector("#bienvenida"));
+    show(cartelBienvenida);
     mensaje.textContent = "";
     desbloquearBtn();
     document.querySelector("#puntaje").textContent = puntaje;
@@ -70,13 +117,13 @@ const finPartida = () => {
     <h2>Resultado Final</h2>
     <p>${puntaje > puntajeRival ? "¡Ganaste!" : "Perdiste :("}</p>
     <div>
-        <p>${nombre}: ${puntaje}</p>
-        <p>Rival: ${puntajeRival}</p>
-        <p>Al mejor de: ${alMejorDe}</p>
+    <p>${nombre=="" ? "Jugador" : nombre}: ${puntaje}</p>
+    <p>Rival: ${puntajeRival}</p>
+    <p>Al mejor de: ${alMejorDe}</p>
     </div>
     <button id="volverAJugar">Volver a Jugar</button>`;
     show(cartelFinal);
-    show(document.querySelector(".bloquear"));
+    show(bloqueo);
     const btnVolverAJugar = document.querySelector("#volverAJugar");
     guardarPuntuacion();
     btnVolverAJugar.onclick = () => volverAJugar();
@@ -146,8 +193,8 @@ const jugar = (opcion) => {
 
 btnIniciar.onclick = (evt) => {
     evt.preventDefault();
-    hide(document.querySelector("#bienvenida"));
-    hide(document.querySelector(".bloquear"));
+    hide(cartelBienvenida);
+    hide(bloqueo);
     alMejorDe = Number(document.querySelector("input[Name='bestof']:checked").value);
     nombre = document.querySelector("input[name='nombre'").value;
     for (let i = 0; i < alMejorDe; i += 1) {
@@ -179,5 +226,23 @@ btnTijera.onclick = () => {
     back.className = "darVueltaBack";
 }
 
-
-// finPartida()
+enlPuntajes.onclick = (evt) => {
+    evt.preventDefault();
+    enlPuntajes.className = "disabled";
+    let cartel=0;
+    if(!cartelBienvenida.className.includes("hidden")){
+        hide(cartelBienvenida);
+        show(cartelPuntajes);
+        cartel=1;
+    }
+    else if(!cartelFinal.className.includes("hidden")){
+        hide(cartelFinal);
+        show(cartelPuntajes);
+        cartel=2;
+    }
+    else{
+        show(bloqueo);
+        show(cartelPuntajes);
+    }
+    mostrarPuntajes(cartel);
+}
