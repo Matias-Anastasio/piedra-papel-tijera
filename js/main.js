@@ -18,7 +18,7 @@ const cartelPuntajes = document.querySelector("#cartelPuntajes");
 const cartelBienvenida = document.querySelector("#bienvenida");
 const bloqueo = document.querySelector(".bloquear");
 const tablaScore = JSON.parse(localStorage.getItem("puntajes")) || [];
-const url = "http://api.giphy.com/v1/gifs/search";
+const url = "https://api.giphy.com/v1/gifs/search";
 const key = "&api_key=MV92a77z541WO4lV15mXL6cU5798ztmT&limit=5";
 let urlGif;
 let busqueda = "?q=";
