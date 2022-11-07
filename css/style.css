@@ -23,10 +23,6 @@ body{
 
 /* ------------------------- HEADER ------------------------- */
 
-main{
-    position: relative;
-}
-
 nav{
     position: sticky;
     height: 48px;
@@ -69,6 +65,12 @@ nav ul li a:hover::before{
 
 /* ------------------------- MAIN ------------------------- */
 
+main{
+    position: relative;
+    width: 100vw;
+    height: calc(100vh - 48px);
+}
+
 h1{
     text-align: center;
     margin-bottom: 10px;
@@ -99,19 +101,18 @@ h1{
 .score-mensaje{
     display: flex;
     justify-content: center;
+    height: 48px;
 }
 
 .mensaje{
     text-align: center;
     font-size: 32px;
-    height: 48px;
     font-weight: 500;
 }
 
 .timer{
     text-align: center;
     font-size: 32px;
-    height: 48px;
     font-weight: 500;
     margin-left: 7px;
 }
@@ -305,31 +306,29 @@ input[type="radio"]:checked + label{
     margin-bottom: 15px;
 }
 
-.cartel form > label{
-    margin: 10px 0;
+.lbl-nombre{
+    margin-top: 10px;
     width: 95%;
+    cursor: text;
+    color: var(--color-fuente);
 }
 
 .cartel input[type="text"]{
     width: 95%;
-    /* height: 30px; */
     background: var(--color-fondo);
-    border: 2px solid var(--color-bordes);
+    border: none;
+    border-bottom: 2px solid var(--color-bordes);
     color: white;
     font-family: 'Poppins', sans-serif;
     font-size: 18px;
     padding: 5px;
+    outline: none;
 }
 
 #cartelFinal{
     justify-content: space-around;
     /* align-items: flex-start; */
     font-size: 1.5em;
-}
-
-#cartelFinal div:nth-child(3){
-    align-self: flex-start;
-    margin-left: 50px;
 }
 
 #cartelFinal > p{
@@ -341,10 +340,22 @@ input[type="radio"]:checked + label{
     width: 95%;
 }
 
+#cartelFinal .cartelFinal-gif{
+    align-self: flex-start;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+#cartelFinal .cartelFinal-gif img{
+height: 170px;
+}
+
 #cartelPuntajes{
     height: fit-content;
     max-height:  80%;
-    top:    10%;
+    top: 10%;
     justify-content: flex-start;
     overflow: auto;
     padding: 15px;
@@ -421,4 +432,102 @@ input[type="radio"]:checked + label{
 
 button{
     cursor: pointer;
+}
+
+
+/* ------------ Responsive ------------ */
+
+@media screen and (max-width:1366px){
+    .cartel{
+        width: 70%;
+        left: 15%;
+        height: 60%;
+        top: 20%;
+    }
+    h1{
+        font-size: 42px;
+        margin-bottom: 19px;
+    }
+    .seleccion-divisor{
+        height: 250px;
+    }
+    .seleccion-player, .seleccion-rival{
+        width: 220px ;
+        height: 220px ;
+    }
+    .elegir button{
+        width: 140px;
+        height: 140px;
+    }
+    .score p{
+        font-size: 48px;
+    }
+    .score-item{
+        width: 32px;
+        height: 32px;
+    }
+    .mensaje,.timer{
+        font-size: 28px;
+    }
+}
+
+@media screen and (max-width:670px){
+    main{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+    }
+    h1{
+        font-size: 28px;
+    }
+    .seleccion{
+        margin-top: 0;
+    }
+    .seleccion-divisor{
+        margin: 0 24px;
+    }
+    .seleccion-player, .seleccion-rival{
+        width: 150px;
+        height: 150px ;
+    }
+    .elegir button{
+        width: 100px;
+        height: 100px;
+        margin: 36px 12px;
+    }
+    .mensaje,.timer{
+        font-size: 20px;
+    }
+    .cartel{
+        width: 90%;
+        left: 5%;
+        height: 65%;
+        top: 17.5%;
+        min-height: fit-content;
+        justify-content: space-evenly;
+    }
+    #bienvenida h2, #cartelFinal{
+        font-size: 18px;
+        margin: 0;
+    }
+    #cartelPuntajes h2{
+        font-size: 18px;
+    }
+    #cartelPuntajes p{
+        font-size: 11px;
+    }
+    #volverAJugar{
+        margin-bottom: 10px;
+    }
+    .lbl-nombre{
+        bottom: 165px;
+    }
+    #cartelFinal .cartelFinal-gif{
+        flex-direction: column;
+        text-align: center;
+    }
+    #cartelFinal .cartelFinal-gif img{
+        margin-top: 20px;
+        max-width: 90%;
+    }
 }
