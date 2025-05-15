@@ -18,7 +18,7 @@ body{
     background-color: var(--color-fondo);
     color: var(--color-fuente);
     font-family: 'Poppins', sans-serif;
-    height: 100vh;
+    height: 100dvh;
 }
 
 /* ------------------------- HEADER ------------------------- */
